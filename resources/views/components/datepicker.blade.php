@@ -10,7 +10,7 @@
 />
 
 
-@push('js')
+@push('before-livewire-scripts')
     <script type="text/javascript">
         $('#{{ $id }}').datetimepicker({
             format: 'L'

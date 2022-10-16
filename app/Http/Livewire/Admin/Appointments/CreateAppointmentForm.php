@@ -18,6 +18,7 @@ class CreateAppointmentForm extends Component
             [
             'client_id' => 'required',
             'members' => 'required',
+            'color' => 'required',
             'date' => 'required',
             'time' => 'required',
             'note' => 'nullable',

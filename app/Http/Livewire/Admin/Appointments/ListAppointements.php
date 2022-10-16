@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Admin\Appointments;
 
+use App\Exports\AppointmentsExport;
 use App\Http\Livewire\Admin\AdminComponent;
 use App\Models\Appointment;
+use Maatwebsite\Excel\Facades\Excel;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -56,8 +58,9 @@ class ListAppointements extends AdminComponent
             ->when($this->status, function ($query, $status) {
                 return $query->where('status', $status);
             })
-            ->latest()
-            ->paginate(5);
+//            ->latest()
+            ->orderBy('order_position', 'asc')
+            ->paginate(10);
     }
 
     public function deleteSelectedRows() {
@@ -79,6 +82,18 @@ class ListAppointements extends AdminComponent
         $this->dispatchBrowserEvent('updated', ['message' => 'Appointments marked as closed.']);
 
         $this->reset(['selectPageRows', 'selectedRows']);
+    }
+
+    public function export() {
+        return (new AppointmentsExport($this->selectedRows))->download('appointments.xls');
+    }
+
+    public function updateAppointmentOrder($items) {
+       foreach ($items as $item) {
+           Appointment::find($item['value'])->update(['order_position' => $item['order']]);
+       }
+
+        $this->dispatchBrowserEvent('updated', ['message' => 'Appointments sorted successfully.']);
     }
 
 

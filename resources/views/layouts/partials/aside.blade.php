@@ -63,8 +63,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <a x-ref="profileLink" href="{{route('admin.settings')}}" class="nav-link {{request()->is('admin/settings') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-cog"></i>
                         <p>
                             Settings
                         </p>
